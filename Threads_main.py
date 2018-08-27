@@ -6,31 +6,30 @@ from tkinter import *
 print_lock = threading.Lock()
 q = Queue()
 
-class threading():
-    def printer(worker):
-        time.sleep(0.5)
-        with print_lock:
-            print(threading.current_thread().name, worker)
+def printer(worker):
+    time.sleep(0.5)
+    with print_lock:
+    print(threading.current_thread().name, worker)
 
-    def finder():
-        while True:
-            worker = q.get()
-            printer(worker)
-            q.task_done()
+def finder():
+    while True:
+        worker = q.get()
+        printer(worker)
+        q.task_done()
 
-    for i in range(10):
-        threads = threading.Thread(target = finder)
-        threads.deamon = True
-        threads.start()
+for i in range(10):
+    threads = threading.Thread(target = finder)
+    threads.deamon = True
+    threads.start()
 
-    print('Threads created')
+print('Threads created')
 
-    for job in range(20):
-        q.put(job)
+for job in range(20):
+    q.put(job)
 
-    q.join()
-    print('Jobs assigned to threads')
-    print('The jobs are done')
+q.join()
+print('Jobs assigned to threads')
+print('The jobs are done')
 
 class form1(Frame):
     def __init__(self, master=None):
@@ -50,5 +49,4 @@ app = Tk()
 app.geometry('600x400')
 window = form1(app)
 app.mainloop()
-
 window = form1(app)
